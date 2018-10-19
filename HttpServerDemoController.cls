@@ -1,4 +1,4 @@
-"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 Object subclass: #HttpServerDemoController
 	instanceVariableNames: 'request response'
@@ -113,7 +113,7 @@ file
 	| name |
 	name := self request queryFields at: 'name'.
 	(name notNil & name notEmpty and: [File exists: File tempPath , name]) ifFalse: [^self notFound].
-	self respondOk: (File readAllBytes: File tempPath , name)!
+	self respondOk: (File readAllBytes: File tempPath , name) contentType: 'image/*'!
 
 formEdit
 	self respondOk: self formEditView!
@@ -212,7 +212,7 @@ request: anObject
 	request := anObject!
 
 respondOk: contents
-	self respondOk: contents contentType: 'text/html; charset=utf-8'!
+	self respondOk: contents asUtf8String contentType: 'text/html; charset=utf-8'!
 
 respondOk: contents contentType: type
 	self response

@@ -1,4 +1,4 @@
-"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 HttpServerObject subclass: #HttpServer
 	instanceVariableNames: 'session listeners state'

@@ -1,4 +1,4 @@
-"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 HttpServerObject subclass: #HttpServerRequest
 	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params'
@@ -125,7 +125,7 @@ queryFields
 
 queryString
 	| query |
-	query := httpRequest CookedUrl pQueryString asString.
+	query := httpRequest CookedUrl pQueryString ?? ''.
 	query isEmpty ifTrue: [^query].
 	^query first = $? ifTrue: [query allButFirst] ifFalse: [query]!
 

@@ -1,4 +1,4 @@
-| package |
+﻿| package |
 package := Package name: 'Dolphin HTTP Server'.
 package paxVersion: 1;
 	basicComment: '"Simplest example:"
@@ -36,9 +36,9 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\..\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\Core\Object Arts\Dolphin\Base\Dolphin';
 	add: 'Thread Pool';
-	add: '..\..\Object Arts\Dolphin\System\Win32\Windows HTTP Server';
+	add: '..\Core\Object Arts\Dolphin\System\Win32\Windows HTTP Server';
 	yourself).
 
 package!

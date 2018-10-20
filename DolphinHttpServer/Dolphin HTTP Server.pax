@@ -10,7 +10,7 @@ server
 	handler: [:request :response | response statusCode: 200; content: ''Hello''].
 server start.
 
-"Point your browser to: http://localhost:8080 "
+"Point your browser to: http://localhost:8080"
 '.
 
 
@@ -36,9 +36,9 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: '..\Core\Object Arts\Dolphin\Base\Dolphin';
+	add: '..\..\Core\Object Arts\Dolphin\Base\Dolphin';
 	add: 'Thread Pool';
-	add: '..\Core\Object Arts\Dolphin\System\Win32\Windows HTTP Server';
+	add: '..\..\Core\Object Arts\Dolphin\System\Win32\Windows HTTP Server';
 	yourself).
 
 package!

@@ -68,6 +68,15 @@ registerSessionManagerEvents
 			send: #onSessionStarted
 			to: self!
 
+removeListener: identifier
+	self listeners removeAllSuchThat: 
+			[:listener |
+			listener name = identifier
+				ifTrue: 
+					[listener stop.
+					true]
+				ifFalse: [false]]!
+
 session
 	session ifNil: [self createServerSession].
 	^session!
@@ -99,6 +108,7 @@ stopListenersAndCloseSession
 !HttpServer categoriesFor: #onSessionStarted!private! !
 !HttpServer categoriesFor: #onSessionStopped!private! !
 !HttpServer categoriesFor: #registerSessionManagerEvents!private! !
+!HttpServer categoriesFor: #removeListener:!public! !
 !HttpServer categoriesFor: #session!public! !
 !HttpServer categoriesFor: #start!public! !
 !HttpServer categoriesFor: #startIfPaused!private! !

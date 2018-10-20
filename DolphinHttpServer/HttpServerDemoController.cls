@@ -173,7 +173,7 @@ index
 	self respondOk: self indexView!
 
 indexView
-	^'<h1>Hello from Dolphin HTTP Server!!</h1>
+	^'<h1>Hello from Dolphin Http Server!!</h1>
 	<ul>
 		<li><a href="/redirectTest">Redirect test (redirect to Google) </a></li>
 		<li><a href="/formEdit">Form and file upload</a></li>

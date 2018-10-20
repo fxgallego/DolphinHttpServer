@@ -1,5 +1,5 @@
 ﻿| package |
-package := Package name: 'Dolphin HTTP Server'.
+package := Package name: 'Dolphin Http Server'.
 package paxVersion: 1;
 	basicComment: '"Simplest example:"
 

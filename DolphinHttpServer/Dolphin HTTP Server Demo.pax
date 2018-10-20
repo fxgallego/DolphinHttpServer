@@ -1,5 +1,5 @@
 ﻿| package |
-package := Package name: 'Dolphin HTTP Server Demo'.
+package := Package name: 'Dolphin Http Server Demo'.
 package paxVersion: 1;
 	basicComment: '"Evaluate"
 
@@ -26,7 +26,7 @@ package globalAliases: (Set new
 
 package setPrerequisites: (IdentitySet new
 	add: '..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: 'Dolphin HTTP Server';
+	add: 'Dolphin Http Server';
 	yourself).
 
 package!

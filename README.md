@@ -7,7 +7,7 @@ It's a good replacement for Swazoo and much more stable too.
 ## Automated Installation
 * Download and install [GitHub Package Manager](https://github.com/rko281/GitHub)
 * Evaluate:
-  `GitHubPackageManager install: 'fxgallego/DolphinHttpServer/Dolphin HTTP Server Demo'`
+  `GitHubPackageManager install: 'fxgallego/DolphinHttpServer/Dolphin Http Server Demo'`
 
 ## Simplest example:
 ```

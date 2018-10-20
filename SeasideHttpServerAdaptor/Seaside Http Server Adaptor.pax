@@ -16,7 +16,7 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: (IdentitySet new
-	add: 'DolphinHttpServer\Dolphin HTTP Server';
+	add: 'DolphinHttpServer\Dolphin Http Server';
 	add: '..\Seaside\Seaside\Seaside-Core';
 	yourself).
 

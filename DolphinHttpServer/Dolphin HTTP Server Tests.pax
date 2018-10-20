@@ -1,5 +1,5 @@
 | package |
-package := Package name: 'Dolphin HTTP Server Tests'.
+package := Package name: 'Dolphin Http Server Tests'.
 package paxVersion: 1;
 	basicComment: 'ToDo: Test Request and Response objects using a client, for example, a WinInet client.
 One exists here: https://code.google.com/archive/p/dolphin-st-winhttp/downloads but I''ve no tested if it still works.'.
@@ -19,7 +19,7 @@ package globalAliases: (Set new
 
 package setPrerequisites: (IdentitySet new
 	add: '..\..\Object Arts\Dolphin\Base\Dolphin';
-	add: 'Dolphin HTTP Server';
+	add: 'Dolphin Http Server';
 	add: '..\Camp Smalltalk\SUnit\SUnit';
 	yourself).
 

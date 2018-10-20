@@ -1,0 +1,39 @@
+﻿| package |
+package := Package name: 'Seaside Http Server Adaptor'.
+package paxVersion: 1;
+	basicComment: ''.
+
+package basicScriptAt: #preinstall put: 'Smalltalk at: #WAServerAdaptor ifAbsent: [self error: ''This package requires Seaside installed. You can get it from: https://github.com/rko281/Seaside'']'.
+
+package classNames
+	add: #WAHttpServerAdaptor;
+	yourself.
+
+package binaryGlobalNames: (Set new
+	yourself).
+
+package globalAliases: (Set new
+	yourself).
+
+package setPrerequisites: (IdentitySet new
+	add: 'DolphinHttpServer\Dolphin HTTP Server';
+	add: '..\Seaside\Seaside\Seaside-Core';
+	yourself).
+
+package!
+
+"Class Definitions"!
+
+WAServerAdaptor subclass: #WAHttpServerAdaptor
+	instanceVariableNames: 'server'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+
+"Global Aliases"!
+
+
+"Loose Methods"!
+
+"End of package definition"!
+

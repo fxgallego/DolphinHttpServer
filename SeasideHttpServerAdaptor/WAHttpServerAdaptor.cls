@@ -21,6 +21,22 @@ basicStop
 	server stop.
 	server removeListener: self class name!
 
+displayOn: aStream
+	"Append, to aStream, a String whose characters are a representation of the receiver as a user
+	would want to see it."
+
+	aStream
+		nextPut: $[ ;
+		nextPutAll: self port displayString;
+		nextPut: $] ;
+		space;
+		nextPutAll: self class name asString!
+
+icon
+	"Answer the icon of the receiver."
+
+	^self isRunning ifTrue: [SeasideIcons start] ifFalse: [SeasideIcons stop]!
+
 initialize
 	codec := self defaultCodec.
 	server := HttpServer new.
@@ -120,6 +136,8 @@ value: req value: res
 		headers: response headers! !
 !WAHttpServerAdaptor categoriesFor: #basicStart!private! !
 !WAHttpServerAdaptor categoriesFor: #basicStop!private! !
+!WAHttpServerAdaptor categoriesFor: #displayOn:!converting-request!public! !
+!WAHttpServerAdaptor categoriesFor: #icon!converting-request!public! !
 !WAHttpServerAdaptor categoriesFor: #initialize!public! !
 !WAHttpServerAdaptor categoriesFor: #isRunning!public!testing! !
 !WAHttpServerAdaptor categoriesFor: #isStarting!public!testing! !

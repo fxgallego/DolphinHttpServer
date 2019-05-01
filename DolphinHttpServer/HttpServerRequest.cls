@@ -11,7 +11,7 @@ HttpServerRequest comment: ''!
 !HttpServerRequest methodsFor!
 
 body
-	body ifNil: [body := self receiveBody asString].
+	body ifNil: [body := Utf8String fromByteArray: self receiveBody].
 	^body!
 
 cancel

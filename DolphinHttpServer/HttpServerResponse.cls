@@ -21,8 +21,7 @@ attachFile: aHttpServerFile
 		reason: 'OK';
 		content: aHttpServerFile contents;
 		contentType: (aHttpServerFile contentType ifNil: ['application/octect-stream']);
-		headerAt: 'Content-Disposition'
-			put: ('attachment; filename=%1' formatWith: aHttpServerFile fileName)!
+		headerAt: 'Content-Disposition' put: 'attachment; filename=' , aHttpServerFile fileName!
 
 content
 	^content!

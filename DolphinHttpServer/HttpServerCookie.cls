@@ -23,17 +23,9 @@ domain: anObject
 expires
 	^expires!
 
-expires: anObject
-	expires := anObject!
-
-expiresLocalTime: aTimeStamp
-	"TimeStamp doesn't handles TZ info and the receiver uses GMT
-	so this helps correctly set the expire data."
-
-	| bias |
-	"GMT = local time + bias. bias are minutes"
-	bias := Locale default timeZoneInformation bias * 60.
-	self expires: (aTimeStamp addSeconds: bias)!
+expires: aDateAndTime
+	(aDateAndTime isKindOf: DateAndTime) ifFalse: [self error: 'Only a DateAndTime parameter is allowed here because they are Time zone aware.'].
+	expires := aDateAndTime asUTC!
 
 httpOnly
 	^httpOnly!
@@ -72,7 +64,7 @@ printOn: target
 	self expires
 		ifNotNil: 
 			[target nextPutAll: '; Expires='.
-			self printRFC1123: self expires asTimeStamp on: target].
+			self printRFC1123: self expires on: target].
 	self maxAge
 		ifNotNil: 
 			[target
@@ -91,18 +83,19 @@ printOn: target
 	self secure ifTrue: [target nextPutAll: '; Secure'].
 	self httpOnly ifTrue: [target nextPutAll: '; HttpOnly']!
 
-printRFC1123: aTimeStamp on: aStream
-	| lcEnglishUS |
+printRFC1123: aDateAndTime on: aStream
+	| lcEnglishUS date |
 	lcEnglishUS := Locale lcid: 1033.
+	date := aDateAndTime asDate.
 	aStream
-		nextPutAll: (lcEnglishUS nameOfDay: aTimeStamp date weekdayIndex abbrev: true);
+		nextPutAll: (lcEnglishUS dayOfWeekAbbreviation: date dayOfWeek);
 		nextPutAll: ', '.
-	aTimeStamp date
-		printOn: aStream
-		locale: lcEnglishUS
+	lcEnglishUS
+		printDate: date
+		on: aStream
 		format: 'dd MMM yyyy'.
 	aStream space.
-	aTimeStamp time printOn: aStream format: 'HH:mm:ss'.
+	aDateAndTime asTime printOn: aStream format: 'HH:mm:ss'.
 	aStream nextPutAll: ' GMT'!
 
 secure
@@ -121,7 +114,6 @@ value: anObject
 !HttpServerCookie categoriesFor: #domain:!accessing!public! !
 !HttpServerCookie categoriesFor: #expires!accessing!public! !
 !HttpServerCookie categoriesFor: #expires:!accessing!public! !
-!HttpServerCookie categoriesFor: #expiresLocalTime:!public! !
 !HttpServerCookie categoriesFor: #httpOnly!accessing!public! !
 !HttpServerCookie categoriesFor: #httpOnly:!accessing!public! !
 !HttpServerCookie categoriesFor: #initialize!private! !

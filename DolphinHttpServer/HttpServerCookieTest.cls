@@ -1,4 +1,4 @@
-"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 TestCase subclass: #HttpServerCookieTest
 	instanceVariableNames: ''
@@ -35,10 +35,10 @@ testNameValueDomainPathAsString
 	!
 
 testNameValueExpiresAsString
-	| cookie ts |
-	ts := TimeStamp date: (Date fromString: '01/02/2018') time: (Time fromString: '15:00:00').
+	| cookie dt |
+	dt := DateAndTime fromString: '2018-02-01T15:00:00Z'.
 	cookie := HttpServerCookie name: 'Dolphin' value: 'Smalltalk'.
-	cookie expires: ts.
+	cookie expires: dt.
 	self assert: cookie asString = 'Dolphin=Smalltalk; Expires=Thu, 01 Feb 2018 15:00:00 GMT'
 	!
 

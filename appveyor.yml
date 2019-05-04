@@ -12,7 +12,7 @@ init:
   - git lfs pull
   - FetchVm
   - BootDPRO
-clone_folder: c:\projects\Dolphin
+clone_folder: c:\projects\Dolphin\DolphinHttpServer
 test_script:
 - cmd: >-
     SET PATH=C:\projects\Dolphin;%PATH%

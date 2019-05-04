@@ -1,0 +1,27 @@
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+skip_tags: true
+skip_branch_with_pr: true
+image: Visual Studio 2017
+configuration: Release
+init:
+- cmd: >-
+    git clone https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
+    cd C:\projects\Dolphin
+    git submodule update --init --recursive
+    git lfs pull
+    FetchVm
+    BootDPRO
+clone_folder: c:\projects\Dolphin
+test_script:
+- cmd: >-
+    SET PATH=C:\projects\Dolphin;%PATH%
+    RunTests
+notifications:
+- provider: Email
+  to:
+  - fxgallego@gmail.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false

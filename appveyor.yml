@@ -15,10 +15,10 @@ init:
       git lfs pull
       FetchVm
       BootDPRO
-clone_folder: "c:\projects\Dolphin\DolphinHttpServer"
+clone_folder: c:\projects\Dolphin\DolphinHttpServer
 test_script:
 - cmd: >-
-    SET PATH="C:\projects\Dolphin";%PATH%
+    SET PATH=C:\projects\Dolphin;%PATH%
     RunTests
 notifications:
 - provider: Email

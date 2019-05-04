@@ -17,6 +17,7 @@ clone_folder: c:\projects\Dolphin\DolphinHttpServer
 build_script:
 - cmd: >-
     cd C:\projects\Dolphin
+    
     FetchVm
     BootDPRO
 test_script:

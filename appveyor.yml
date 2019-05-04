@@ -6,14 +6,15 @@ skip_branch_with_pr: true
 image: Visual Studio 2017
 configuration: Release
 init:
-  - if not exist "C:\projects\Dolphin\" git clone https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
-  - cd C:\projects\Dolphin
-  - git fetch all
-  - git reset --hard origin/master
-  - git submodule update --init --recursive
-  - git lfs pull
-  - FetchVm
-  - BootDPRO
+  - cmd: >-
+    if not exist "C:\projects\Dolphin\" git clone https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
+    cd C:\projects\Dolphin
+    git fetch all
+    git reset --hard origin/master
+    git submodule update --init --recursive
+    git lfs pull
+    FetchVm
+    BootDPRO
 clone_folder: c:\projects\Dolphin\DolphinHttpServer
 test_script:
 - cmd: >-

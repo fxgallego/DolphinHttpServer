@@ -1,3 +1,4 @@
+dir C:\projects\Dolphin
 @ECHO OFF
 SET PATH=C:\projects\Dolphin;%PATH%
 ECHO Running regression tests

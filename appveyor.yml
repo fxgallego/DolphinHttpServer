@@ -13,13 +13,12 @@ init:
     git reset --hard origin/master
     git submodule update --init --recursive
     git lfs pull
+    FetchVm
+    BootDPRO
 clone_folder: c:\projects\Dolphin\DolphinHttpServer
 build_script:
 - cmd: >-
-    cd C:\projects\Dolphin
-    
-    FetchVm
-    BootDPRO
+    echo "Nothing to build only test"
 test_script:
 - cmd: >-
     SET PATH=C:\projects\Dolphin;%PATH%

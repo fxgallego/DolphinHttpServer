@@ -8,17 +8,17 @@ configuration: Release
 init:
 - cmd: >-
   if not exist "C:\projects\Dolphin\" git clone https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
-  cd C:\projects\Dolphin
+  cd "C:\projects\Dolphin"
   git fetch all
   git reset --hard origin/master
   git submodule update --init --recursive
   git lfs pull
   FetchVm
   BootDPRO
-clone_folder: c:\projects\Dolphin\DolphinHttpServer
+clone_folder: "c:\projects\Dolphin\DolphinHttpServer"
 test_script:
 - cmd: >-
-    SET PATH=C:\projects\Dolphin;%PATH%
+    SET PATH="C:\projects\Dolphin";%PATH%
     RunTests
 notifications:
 - provider: Email

@@ -6,13 +6,12 @@ skip_branch_with_pr: true
 image: Visual Studio 2017
 configuration: Release
 init:
-- cmd: >-
-    git clone https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
-    cd C:\projects\Dolphin
-    git submodule update --init --recursive
-    git lfs pull
-    FetchVm
-    BootDPRO
+  - git clone https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
+  - cd C:\projects\Dolphin
+  - git submodule update --init --recursive
+  - git lfs pull
+  - FetchVm
+  - BootDPRO
 clone_folder: c:\projects\Dolphin
 test_script:
 - cmd: >-

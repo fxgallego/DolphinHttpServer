@@ -1,5 +1,7 @@
 # Dolphin Http Server
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ot8q939aot5rdykj/branch/master?svg=true)](https://ci.appveyor.com/project/fxgallego/dolphinhttpserver/branch/master)
+
 This is a multithreaded http server that wraps the Windows HTTP Server API. A low level wrapper is provided by Dolphin 7.
 It includes thread pool to avoid running out of green processes when the server is being accesed by multiple clients.
 It's a good replacement for Swazoo and much more stable too.

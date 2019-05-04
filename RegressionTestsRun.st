@@ -3,7 +3,7 @@
 	SourceManager default fileIn: 'RegressionTestsLoad.st']!
 
 [| results suite |
-suite := TestSuite named: 'DolphinHttpServerRegressionTests'.
+suite := TestSuite named: 'RegressionTests'.
 suite addTests: HttpServerCookieTest buildSuite allTests.
 suite addTests: HttpServerHeadersTest buildSuite allTests.
 suite addTests: HttpServerTest buildSuite allTests.

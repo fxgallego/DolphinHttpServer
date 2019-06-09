@@ -36,9 +36,9 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: #(
-	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Dolphin\Core\Object Arts\Dolphin\Base\Dolphin'
 	'Thread Pool'
-	'..\..\Core\Object Arts\Dolphin\System\Win32\Windows HTTP Server').
+	'..\..\Dolphin\Core\Object Arts\Dolphin\System\Win32\Windows HTTP Server').
 
 package!
 

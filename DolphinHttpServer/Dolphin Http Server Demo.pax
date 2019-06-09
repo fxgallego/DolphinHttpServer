@@ -24,10 +24,9 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\Core\Object Arts\Dolphin\Base\Dolphin';
-	add: 'Dolphin Http Server';
-	yourself).
+package setPrerequisites: #(
+	'..\..\Dolphin\Core\Object Arts\Dolphin\Base\Dolphin'
+	'Dolphin Http Server').
 
 package!
 

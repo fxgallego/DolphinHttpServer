@@ -232,10 +232,12 @@ decodeUrlEncoded: aString
 	self decodeUrlEncoded: aString
 		do: 
 			[:key :value |
-			fields at: key
-				put: ((fields at: key ifAbsent: [])
-						ifNil: [value]
-						ifNotNil: [:previous | (previous isKindOf: Array) ifTrue: [previous , {value}] ifFalse: [{previous. value}]])].
+			(key endsWith: '[]')
+				ifTrue: 
+					[| k |
+					k := key upTo: $[.
+					fields at: k put: (fields at: k ifAbsent: [Array new]) , {value}]
+				ifFalse: [fields at: key put: value]].
 	^fields!
 
 decodeUrlEncoded: aString do: aBlock

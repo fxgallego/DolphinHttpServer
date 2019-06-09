@@ -8,6 +8,7 @@ One exists here: https://code.google.com/archive/p/dolphin-st-winhttp/downloads 
 package classNames
 	add: #HttpServerCookieTest;
 	add: #HttpServerHeadersTest;
+	add: #HttpServerRequestTest;
 	add: #HttpServerTest;
 	yourself.
 
@@ -18,9 +19,9 @@ package globalAliases: (Set new
 	yourself).
 
 package setPrerequisites: #(
-	'..\..\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Dolphin\Core\Object Arts\Dolphin\Base\Dolphin'
 	'Dolphin Http Server'
-	'..\..\Core\Contributions\Camp Smalltalk\SUnit\SUnit').
+	'..\..\Dolphin\Core\Contributions\Camp Smalltalk\SUnit\SUnit').
 
 package!
 
@@ -33,6 +34,11 @@ TestCase subclass: #HttpServerCookieTest
 	classInstanceVariableNames: ''!
 TestCase subclass: #HttpServerHeadersTest
 	instanceVariableNames: 'headers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #HttpServerRequestTest
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

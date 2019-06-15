@@ -6,7 +6,9 @@
 suite := TestSuite named: 'RegressionTests'.
 suite addTests: HttpServerCookieTest buildSuite allTests.
 suite addTests: HttpServerHeadersTest buildSuite allTests.
+suite addTests: HttpServerRequestTest buildSuite allTests.
 suite addTests: HttpServerTest buildSuite allTests.
+suite addTests: MultiValueDictionaryTest buildSuite allTests.
 results := SmalltalkSystem current
 				runRegressionTests: suite
 				logTo: SessionManager current stdout

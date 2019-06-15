@@ -23,7 +23,9 @@ testDecodeUrlEncodedSingleAndRepeatedParams
 	| params |
 	params := HttpServerRequest decodeUrlEncoded: 'foo=bar&foo=barz'.
 	self assert: params size = 1.
-	self assert: (params at: 'foo') = 'barz'.!
+	self assert: ((params at: 'foo') isKindOf: Array).
+	self assert: ((params at: 'foo') includes: 'bar').
+	self assert: ((params at: 'foo') includes: 'barz').!
 
 testDecodeUrlEncodedSingleParams
 	| params |

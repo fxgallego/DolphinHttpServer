@@ -92,13 +92,13 @@ params
 	"Answer all params: postFields + queryFields.
 	queryFields are given preference over postFields."
 
-	params ifNil: [params := LookupTable withAll: self postFields associations, self queryFields associations].
+	params ifNil: [params := self postFields copy addAllMulti: self queryFields].
 	^params!
 
 parsePostFields
 	self isFormUrlEncoded ifTrue: [^self class decodeUrlEncoded: self body].
 	self isMultipart ifTrue: [^self class decodeMultipart: self body boundary: self multipartBoundary].
-	^LookupTable new!
+	^MultiValueDictionary new!
 
 parseQueryFields
 	^self class decodeUrlEncoded: self queryString!
@@ -181,7 +181,7 @@ verb
 
 decodeMultipart: aString boundary: boundary
 	| fields |
-	fields := LookupTable new.
+	fields := MultiValueDictionary new.
 	self
 		decodeMultipart: aString readStream
 		boundary: boundary
@@ -199,7 +199,7 @@ decodeMultipart: aString boundary: boundary
 							value fileName: filename.
 							value contents: content.
 							value contentType: (headers at: 'content-type' ifAbsent: ['text/html'])].
-					fields at: fieldName put: value]].
+					fields at: (fieldName upTo: $[ ) add: value]].
 	^fields!
 
 decodeMultipart: aStream boundary: boundary do: aBlock
@@ -228,16 +228,13 @@ decodeMultipart: aStream boundary: boundary do: aBlock
 
 decodeUrlEncoded: aString
 	| fields |
-	fields := LookupTable new.
+	fields := MultiValueDictionary new.
 	self decodeUrlEncoded: aString
 		do: 
 			[:key :value |
-			(key endsWith: '[]')
-				ifTrue: 
-					[| k |
-					k := key upTo: $[.
-					fields at: k put: (fields at: k ifAbsent: [Array new]) , {value}]
-				ifFalse: [fields at: key put: value]].
+			| k |
+			k := key upTo: $[.
+			fields at: k add: value].
 	^fields!
 
 decodeUrlEncoded: aString do: aBlock

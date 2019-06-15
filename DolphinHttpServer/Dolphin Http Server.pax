@@ -27,6 +27,7 @@ package classNames
 	add: #HttpServerResponse;
 	add: #HttpServerSession;
 	add: #HttpServerUrlGroup;
+	add: #MultiValueDictionary;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -46,6 +47,11 @@ package!
 
 Object subclass: #HttpServerObject
 	instanceVariableNames: 'lib'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+Dictionary variableSubclass: #MultiValueDictionary
+	instanceVariableNames: 'limit'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

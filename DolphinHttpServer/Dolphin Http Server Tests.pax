@@ -10,6 +10,7 @@ package classNames
 	add: #HttpServerHeadersTest;
 	add: #HttpServerRequestTest;
 	add: #HttpServerTest;
+	add: #MultiValueDictionaryTest;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -44,6 +45,11 @@ TestCase subclass: #HttpServerRequestTest
 	classInstanceVariableNames: ''!
 TestCase subclass: #HttpServerTest
 	instanceVariableNames: 'server'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #MultiValueDictionaryTest
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

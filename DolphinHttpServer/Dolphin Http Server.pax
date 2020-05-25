@@ -91,7 +91,7 @@ HttpServerObject subclass: #HttpServerQueue
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 HttpServerObject subclass: #HttpServerRequest
-	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params'
+	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params dateAndTime'
 	classVariableNames: 'MAX_PAYLOAD'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

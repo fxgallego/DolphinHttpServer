@@ -1,7 +1,7 @@
 ﻿"Filed out from Dolphin Smalltalk 7"!
 
 HttpServerObject subclass: #HttpServerRequest
-	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params'
+	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params dateAndTime'
 	classVariableNames: 'MAX_PAYLOAD'
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
@@ -9,6 +9,9 @@ HttpServerRequest guid: (GUID fromString: '{14fd8fd4-f15d-4b17-a47d-a6942bc0d04b
 HttpServerRequest comment: ''!
 !HttpServerRequest categoriesForClass!Unclassified! !
 !HttpServerRequest methodsFor!
+
+accept
+	^self headerAt: 'Accept' ifAbsent: ['']!
 
 body
 	body ifNil: [body := Utf8String fromByteArray: self receiveBody].
@@ -23,26 +26,35 @@ cancel
 contentLength
 	"Note: Don't using #asNumber here to avoid interpret strings using Smalltalk syntax."
 
-	^Integer readPositiveFrom: (self headers headerAt: 'Content-Length' ifAbsent: ['0']) readStream radix: 10!
+	^Integer readPositiveFrom: (self headerAt: 'Content-Length' ifAbsent: ['0']) readStream radix: 10!
 
 contentType
-	^self headers headerAt: 'Content-Type' ifAbsent: ['']!
+	^self headerAt: 'Content-Type' ifAbsent: ['']!
 
 cookie
-	^self headers headerAt: 'Cookie' ifAbsent: []!
+	^self headerAt: 'Cookie' ifAbsent: []!
+
+dateAndTime
+	^dateAndTime!
 
 fullUrl
 	^httpRequest CookedUrl pFullUrl asString!
 
 headerAt: name
-	^headers headerAt: name ifAbsent: []!
+	^self headers headerAt: name ifAbsent: []!
+
+headerAt: name ifAbsent: aBlock
+	^self headers headerAt: name ifAbsent: aBlock!
 
 headerAt: name put: stringValue
-	^headers headerAt: name put: stringValue!
+	^self headers headerAt: name put: stringValue!
 
 headers
 	headers ifNil: [self initializeHeaders].
 	^headers!
+
+host
+	^self headerAt: 'Host' ifAbsent: ['']!
 
 httpVersion
 	^Array with: httpRequest Version MajorVersion with: httpRequest Version MinorVersion!
@@ -56,7 +68,8 @@ initializeHeaders
 
 initializeOn: httpApiQueue
 	queue := httpApiQueue.
-	httpRequest := self lib receiveRequest: queue handle flags: 0!
+	httpRequest := self lib receiveRequest: queue handle flags: 0.
+	dateAndTime := DateAndTime now!
 
 isDelete
 	^self verb = 'DELETE'!
@@ -84,6 +97,9 @@ multipartBoundary
 	header := self contentType ifNil: [^nil].
 	(header beginsWith: 'multipart/form-data') ifFalse:[^nil].
 	^(header copyFrom: (header findString: 'boundary=') + 9 to: header size)!
+
+origin
+	^self headerAt: 'Origin' ifAbsent: ['']!
 
 paramAt: name
 	^self params at: name ifAbsent: []!
@@ -139,17 +155,27 @@ receiveBody
 				signal: 'The maximum content length allowed is ' , self class maxPayload displayString , ' bytes'].
 	^self lib receiveRequestEntityBody: self queueHandle requestId: self id!
 
+userAgent
+	^self headerAt: 'User-Agent' ifAbsent: ['']!
+
 verb
-	^httpRequest verb! !
+	^httpRequest verb!
+
+xRequestedWith
+	^self headerAt: 'X-Requested-With' ifAbsent: ['']! !
+!HttpServerRequest categoriesFor: #accept!public! !
 !HttpServerRequest categoriesFor: #body!public! !
 !HttpServerRequest categoriesFor: #cancel!public! !
 !HttpServerRequest categoriesFor: #contentLength!public! !
 !HttpServerRequest categoriesFor: #contentType!public! !
 !HttpServerRequest categoriesFor: #cookie!public! !
+!HttpServerRequest categoriesFor: #dateAndTime!public! !
 !HttpServerRequest categoriesFor: #fullUrl!public! !
 !HttpServerRequest categoriesFor: #headerAt:!public! !
+!HttpServerRequest categoriesFor: #headerAt:ifAbsent:!public! !
 !HttpServerRequest categoriesFor: #headerAt:put:!public! !
 !HttpServerRequest categoriesFor: #headers!public! !
+!HttpServerRequest categoriesFor: #host!public! !
 !HttpServerRequest categoriesFor: #httpVersion!public! !
 !HttpServerRequest categoriesFor: #id!accessing!public! !
 !HttpServerRequest categoriesFor: #initializeHeaders!private! !
@@ -162,6 +188,7 @@ verb
 !HttpServerRequest categoriesFor: #isPost!public! !
 !HttpServerRequest categoriesFor: #isPut!public! !
 !HttpServerRequest categoriesFor: #multipartBoundary!private! !
+!HttpServerRequest categoriesFor: #origin!public! !
 !HttpServerRequest categoriesFor: #paramAt:!public! !
 !HttpServerRequest categoriesFor: #params!public! !
 !HttpServerRequest categoriesFor: #parsePostFields!private! !
@@ -175,7 +202,9 @@ verb
 !HttpServerRequest categoriesFor: #queryString!public! !
 !HttpServerRequest categoriesFor: #queueHandle!accessing!public! !
 !HttpServerRequest categoriesFor: #receiveBody!private! !
+!HttpServerRequest categoriesFor: #userAgent!public! !
 !HttpServerRequest categoriesFor: #verb!public! !
+!HttpServerRequest categoriesFor: #xRequestedWith!public! !
 
 !HttpServerRequest class methodsFor!
 

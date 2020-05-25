@@ -27,6 +27,9 @@ content
 content: anObject
 	content := anObject!
 
+contentType
+	^self headerAt: 'Content-Type'!
+
 contentType: type
 	self headerAt: 'Content-Type' put: type!
 
@@ -83,6 +86,7 @@ statusCode: anObject
 !HttpServerResponse categoriesFor: #attachFile:!public! !
 !HttpServerResponse categoriesFor: #content!accessing!public! !
 !HttpServerResponse categoriesFor: #content:!accessing!public! !
+!HttpServerResponse categoriesFor: #contentType!accessing!public! !
 !HttpServerResponse categoriesFor: #contentType:!accessing!public! !
 !HttpServerResponse categoriesFor: #headerAt:!public! !
 !HttpServerResponse categoriesFor: #headerAt:put:!public! !
@@ -99,7 +103,49 @@ statusCode: anObject
 
 !HttpServerResponse class methodsFor!
 
+badRequest
+	^self new
+		statusCode: 400;
+		yourself!
+
+basicAuthRealm: realmString
+	^self unauthorized
+		headerAt: 'WWW-Authenticate' put: ('Basic realm="<1d>"' expandMacrosWith: realmString);
+		yourself!
+
 for: httpApiRequest
-	^self new initializeOn: httpApiRequest! !
+	^self new initializeOn: httpApiRequest!
+
+forbidden
+	^self new
+		statusCode: 403;
+		yourself!
+
+internalServerError
+	^self new
+		statusCode: 500;
+		yourself!
+
+notFound
+	^self new
+		statusCode: 404;
+		yourself!
+
+ok
+	^self new
+		statusCode: 200;
+		yourself!
+
+unauthorized
+	^self new
+		statusCode: 401;
+		yourself! !
+!HttpServerResponse class categoriesFor: #badRequest!public! !
+!HttpServerResponse class categoriesFor: #basicAuthRealm:!public! !
 !HttpServerResponse class categoriesFor: #for:!public! !
+!HttpServerResponse class categoriesFor: #forbidden!public! !
+!HttpServerResponse class categoriesFor: #internalServerError!public! !
+!HttpServerResponse class categoriesFor: #notFound!public! !
+!HttpServerResponse class categoriesFor: #ok!public! !
+!HttpServerResponse class categoriesFor: #unauthorized!public! !
 

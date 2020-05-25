@@ -9,6 +9,7 @@ package classNames
 	add: #HttpServerCookieTest;
 	add: #HttpServerHeadersTest;
 	add: #HttpServerRequestTest;
+	add: #HttpServerResponseTest;
 	add: #HttpServerTest;
 	add: #MultiValueDictionaryTest;
 	yourself.
@@ -39,6 +40,11 @@ TestCase subclass: #HttpServerHeadersTest
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 TestCase subclass: #HttpServerRequestTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #HttpServerResponseTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''

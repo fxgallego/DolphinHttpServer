@@ -11,8 +11,6 @@ HttpServerResponse comment: ''!
 !HttpServerResponse methodsFor!
 
 addCookie: cookie
-	self headers headerAt: 'Set-Cookie' ifPresent: [:value | self error: 'Only one cookie supported'].
-
 	self headers headerAt: 'Set-Cookie' put: cookie asString!
 
 attachFile: aHttpServerFile

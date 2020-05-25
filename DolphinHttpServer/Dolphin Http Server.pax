@@ -76,7 +76,7 @@ HttpServerObject subclass: #HttpServerFile
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!
 HttpServerObject subclass: #HttpServerHeaders
-	instanceVariableNames: 'knownHeaders unknownHeaders pHeaders pKnownHeaders pUnknownHeaders'
+	instanceVariableNames: 'knownHeaders unknownHeaders multipleKnownHeaders pHeaders pKnownHeaders pUnknownHeaders pResponseInfo references'
 	classVariableNames: ''
 	poolDictionaries: 'WinHttpServerConsts'
 	classInstanceVariableNames: ''!

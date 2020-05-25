@@ -77,7 +77,15 @@ cookieTest
 	name notEmpty
 		ifTrue: 
 			[self response addCookie: ((HttpServerCookie name: 'cookie-test-name' value: name displayString)
-						expires: (DateAndTime now + (Duration seconds: 15));
+						expires: DateAndTime now + (Duration seconds: 15);
+						yourself).
+			self response
+				addCookie: ((HttpServerCookie name: 'cookie-test-reverse' value: name displayString reverse)
+						expires: DateAndTime now + (Duration seconds: 15);
+						yourself).
+			self response
+				addCookie: ((HttpServerCookie name: 'cookie-test-uppercase' value: name displayString asUppercase)
+						expires: DateAndTime now + (Duration seconds: 15);
 						yourself)].
 	self respondOk: self cookieTestView!
 
@@ -93,9 +101,11 @@ cookieTestView
 		<input id="name"  name="name" type="text">
 		<input type="submit" value="submit" id="submit" />
 	<h3>Cookie data (read by javascript)</h3>
-	<p><a href="/cookieTest">Reload</a> to check the cookie expired. It should expire within 15 seconds<p>
+	<p><a href="/cookieTest">Reload</a> to check all cookies expired. It should expire within 15 seconds</p>
 	<ul>
-		<li>The cookie says your name is: <span id="cookie-value"></span></li>
+		<li>The 1st cookie says your name is: <span id="cookie-1"></span></li>
+		<li>The 2nd cookie says your name reversed is: <span id="cookie-2"></span></li>
+		<li>The 3rd cookie says your name to uppercase is: <span id="cookie-3"></span></li>
 	</ul>
 	</form>
 	<script>
@@ -103,7 +113,9 @@ cookieTestView
 		  match = document.cookie.match(new RegExp(name + "=([^;]+)"));
 		  if (match) return match[1];
 		}
-		document.getElementById("cookie-value").innerHTML = "<b>" + getCookie("cookie-test-name") + "</b>";		
+		document.getElementById("cookie-1").innerHTML = "<b>" + getCookie("cookie-test-name") + "</b>";
+		document.getElementById("cookie-2").innerHTML = "<b>" + getCookie("cookie-test-reverse") + "</b>";
+		document.getElementById("cookie-3").innerHTML = "<b>" + getCookie("cookie-test-uppercase") + "</b>";		
 	</script>
 	'!
 

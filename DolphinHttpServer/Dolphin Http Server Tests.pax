@@ -12,6 +12,8 @@ package classNames
 	add: #HttpServerResponseTest;
 	add: #HttpServerTest;
 	add: #MultiValueDictionaryTest;
+	add: #RubyRackParamsStyleTest;
+	add: #SmalltalkParamsStyleTest;
 	yourself.
 
 package binaryGlobalNames: (Set new
@@ -56,6 +58,16 @@ TestCase subclass: #HttpServerTest
 	classInstanceVariableNames: ''!
 TestCase subclass: #MultiValueDictionaryTest
 	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #RubyRackParamsStyleTest
+	instanceVariableNames: '_style'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+TestCase subclass: #SmalltalkParamsStyleTest
+	instanceVariableNames: '_style'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

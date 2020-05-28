@@ -10,6 +10,8 @@ suite addTests: HttpServerRequestTest buildSuite allTests.
 suite addTests: HttpServerResponseTest buildSuite allTests.
 suite addTests: HttpServerTest buildSuite allTests.
 suite addTests: MultiValueDictionaryTest buildSuite allTests.
+suite addTests: RubyRackParamsStyleTest buildSuite allTests.
+suite addTests: SmalltalkParamsStyleTest buildSuite allTests.
 results := SmalltalkSystem current
 				runRegressionTests: suite
 				logTo: SessionManager current stdout

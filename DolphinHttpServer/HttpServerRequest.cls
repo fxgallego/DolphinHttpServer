@@ -4,7 +4,7 @@ HttpServerObject subclass: #HttpServerRequest
 	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params dateAndTime'
 	classVariableNames: 'MAX_PAYLOAD'
 	poolDictionaries: ''
-	classInstanceVariableNames: ''!
+	classInstanceVariableNames: 'ParamsStyle'!
 HttpServerRequest guid: (GUID fromString: '{14fd8fd4-f15d-4b17-a47d-a6942bc0d04b}')!
 HttpServerRequest comment: ''!
 !HttpServerRequest categoriesForClass!Unclassified! !
@@ -228,7 +228,10 @@ decodeMultipart: aString boundary: boundary
 							value fileName: filename.
 							value contents: content.
 							value contentType: (headers at: 'content-type' ifAbsent: ['text/html'])].
-					fields at: (fieldName upTo: $[ ) add: value]].
+					self
+						normalizeParams: fields
+						key: fieldName
+						value: value]].
 	^fields!
 
 decodeMultipart: aStream boundary: boundary do: aBlock
@@ -261,26 +264,35 @@ decodeUrlEncoded: aString
 	self decodeUrlEncoded: aString
 		do: 
 			[:key :value |
-			| k |
-			k := key upTo: $[.
-			fields at: k add: value].
+			self
+				normalizeParams: fields
+				key: key
+				value: value].
 	^fields!
 
 decodeUrlEncoded: aString do: aBlock
-	| args keyval index key value |
-	args := aString readStream.
-	[args atEnd] whileFalse: 
-			[keyval := args upTo: $&.
-			(index := keyval indexOf: $=) = 0
-				ifTrue: 
-					[key := keyval.
-					value := '']
+	(aString subStrings: {$&. $;}) do: 
+			[:eachParam |
+			| keyValue |
+			keyValue := eachParam subStrings: $=.
+			aBlock value: (keyValue at: 1) unescapePercents
+				value: ((keyValue at: 2 ifAbsent: []) ifNotNil: [:v | v unescapePercents])]!
+
+match: string with: pattern
+	| input regex matches results |
+	input := string asUtf16String.
+	regex := IRegExp2 pattern: pattern.
+	matches := regex execute: input.
+	results := OrderedCollection new.
+	matches do: [:each | results add: each subMatches first].
+	results add: (matches isEmpty
+				ifTrue: ['']
 				ifFalse: 
-					[key := keyval copyFrom: 1 to: index - 1.
-					value := keyval copyFrom: index + 1 to: keyval size].
-			key := key unescapePercents.
-			value := value unescapePercents.
-			aBlock value: key value: value]!
+					[| range |
+					range := matches last range.
+					input copyFrom: range stop + 1 to: input size]).
+	regex free.
+	^results asArray!
 
 maxPayload
 	MAX_PAYLOAD ifNil: [MAX_PAYLOAD := 100 * 1024 * 1024 "100MB"].
@@ -289,8 +301,21 @@ maxPayload
 maxPayload: size
 	MAX_PAYLOAD := size!
 
+normalizeParams: params key: key value: value
+	
+	self paramsStyle == #smalltalk ifTrue: [^self smalltalkNormalizeParams: params key: key value: value ].
+	self paramsStyle == #rubyRack ifTrue: [^self rubyRackNormalizeParams: params key: key value: value ].
+	self error: 'Unrecognized params style. Should be one of #smalltalk or #rubyRack.'!
+
 on: httpApiQueue
 	^self new initializeOn: httpApiQueue!
+
+paramsStyle
+	ParamsStyle ifNil: [ParamsStyle := #smalltalk].
+	^ParamsStyle!
+
+paramsStyle: aSymbol
+	ParamsStyle := aSymbol!
 
 readPartHeadersFrom: aStream
 	| headers nextLine existing |
@@ -306,13 +331,70 @@ readPartHeadersFrom: aStream
 					ifFalse: 
 						["Regular header"
 						headers add: (nextLine upTo: $:) asLowercase -> nextLine upToEnd trimBlanks]].
-	^headers! !
+	^headers!
+
+rubyRackNormalizeParams: params key: key value: value
+	"Private - This code was translated from Ruby to Smalltalk."
+
+	| matches k after childKey |
+	matches := self match: key with: '^[\[\]]*([^\[\]]+)\]*'.
+	k := matches at: 1 ifAbsent: [''].
+	after := matches isEmpty ifTrue: [''] ifFalse: [matches last].
+	k isEmpty ifTrue: [^self].
+	after isEmpty
+		ifTrue: [params at: k put: value]
+		ifFalse: 
+			[after = '['
+				ifTrue: [params at: key put: value]
+				ifFalse: 
+					[after = '[]'
+						ifTrue: 
+							[params at: k ifAbsentPut: [OrderedCollection new].
+							(params at: k) add: value]
+						ifFalse: 
+							[((matches := self match: after with: '^\[\]\[([^\[\]]+)\]$') first notEmpty
+								or: [(matches := self match: after with: '^\[\](.+)$') first notEmpty])
+									ifTrue: 
+										[childKey := matches first.
+										params at: k ifAbsentPut: [OrderedCollection new].
+										((params at: k) notEmpty and: 
+												[((params at: k) last isKindOf: Dictionary) and: [((params at: k) last includesKey: childKey) not]])
+											ifTrue: 
+												[self
+													rubyRackNormalizeParams: (params at: k) last
+													key: childKey
+													value: value]
+											ifFalse: 
+												[(params at: k) add: (self
+															rubyRackNormalizeParams: Dictionary new
+															key: childKey
+															value: value)]]
+									ifFalse: 
+										[params at: k ifAbsentPut: [Dictionary new].
+										params at: k
+											put: (self
+													rubyRackNormalizeParams: (params at: k)
+													key: after
+													value: value)]]]].
+	^params!
+
+smalltalkNormalizeParams: params key: key value: value
+	"Private - This corresponds to the Smalltalk implementation as in Squeak."
+
+	params at: (key upTo: $[) add: (value ifNil: ['']).
+	^params! !
 !HttpServerRequest class categoriesFor: #decodeMultipart:boundary:!public! !
 !HttpServerRequest class categoriesFor: #decodeMultipart:boundary:do:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:do:!public! !
+!HttpServerRequest class categoriesFor: #match:with:!private! !
 !HttpServerRequest class categoriesFor: #maxPayload!public! !
 !HttpServerRequest class categoriesFor: #maxPayload:!public! !
+!HttpServerRequest class categoriesFor: #normalizeParams:key:value:!private! !
 !HttpServerRequest class categoriesFor: #on:!public! !
+!HttpServerRequest class categoriesFor: #paramsStyle!public! !
+!HttpServerRequest class categoriesFor: #paramsStyle:!public! !
 !HttpServerRequest class categoriesFor: #readPartHeadersFrom:!private! !
+!HttpServerRequest class categoriesFor: #rubyRackNormalizeParams:key:value:!private! !
+!HttpServerRequest class categoriesFor: #smalltalkNormalizeParams:key:value:!private! !
 

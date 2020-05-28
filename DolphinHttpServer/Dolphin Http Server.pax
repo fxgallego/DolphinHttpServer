@@ -39,6 +39,7 @@ package globalAliases: (Set new
 package setPrerequisites: #(
 	'..\..\Dolphin\Core\Object Arts\Dolphin\Base\Dolphin'
 	'Thread Pool'
+	'..\..\Dolphin\Core\Object Arts\Dolphin\ActiveX\Components\VBScript\VBScript Regular Expressions'
 	'..\..\Dolphin\Core\Object Arts\Dolphin\System\Win32\Windows HTTP Server').
 
 package!
@@ -94,7 +95,7 @@ HttpServerObject subclass: #HttpServerRequest
 	instanceVariableNames: 'queue httpRequest headers body postFields queryFields params dateAndTime'
 	classVariableNames: 'MAX_PAYLOAD'
 	poolDictionaries: ''
-	classInstanceVariableNames: ''!
+	classInstanceVariableNames: 'ParamsStyle'!
 HttpServerObject subclass: #HttpServerResponse
 	instanceVariableNames: 'request statusCode reason contentType content headers'
 	classVariableNames: ''

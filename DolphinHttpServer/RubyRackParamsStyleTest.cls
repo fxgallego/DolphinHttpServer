@@ -84,7 +84,7 @@ testOnlyOneParamWithEmptyValueParsesToParamWithEmptyString
 				yourself)!
 
 testParameterSeparatorsAreAmpersandOrSemicolon
-	self assert: (HttpServerRequest decodeUrlEncoded: 'param1=value1;param2=value2&param3=value3')
+	self assert: (HttpServerRequest decodeUrlEncoded: 'param1=value1&param2=value2&param3=value3')
 		equals: (Dictionary new
 				at: 'param1' put: 'value1';
 				at: 'param2' put: 'value2';

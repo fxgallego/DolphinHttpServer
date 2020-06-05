@@ -271,7 +271,7 @@ decodeUrlEncoded: aString
 	^fields!
 
 decodeUrlEncoded: aString do: aBlock
-	(aString subStrings: {$&. $;}) do: 
+	(aString subStrings: $&) do: 
 			[:eachParam |
 			| keyValue |
 			keyValue := eachParam subStrings: $=.

@@ -259,16 +259,7 @@ decodeMultipart: aStream boundary: boundary do: aBlock
 				value: content]!
 
 decodeUrlEncoded: aString
-	| fields |
-	fields := MultiValueDictionary new.
-	self decodeUrlEncoded: aString
-		do: 
-			[:key :value |
-			self
-				normalizeParams: fields
-				key: key
-				value: value].
-	^fields!
+	^self decodeUrlEncoded: aString fieldSeparators: {$&}!
 
 decodeUrlEncoded: aString do: aBlock
 	(aString subStrings: $&) do: 
@@ -277,6 +268,30 @@ decodeUrlEncoded: aString do: aBlock
 			keyValue := eachParam subStrings: $=.
 			aBlock value: (keyValue at: 1) unescapePercents
 				value: ((keyValue at: 2 ifAbsent: []) ifNotNil: [:v | v unescapePercents])]!
+
+decodeUrlEncoded: aString fieldSeparators: aCharacterArray
+	| fields |
+	fields := MultiValueDictionary new.
+	self
+		decodeUrlEncoded: aString
+		fieldSeparators: aCharacterArray
+		do: 
+			[:key :value |
+			self
+				normalizeParams: fields
+				key: key
+				value: value].
+	^fields!
+
+decodeUrlEncoded: aString fieldSeparators: aCharacterArray do: aBlock
+	(aCharacterArray split: aString) do: 
+			[:eachParam |
+			| readStream key value |
+			readStream := eachParam readStream.
+			key := readStream upTo: $=.
+			value := readStream upToEnd.
+			aBlock value: key trimBlanks unescapePercents
+				value: (value notEmpty ifTrue: [value unescapePercents])]!
 
 match: string with: pattern
 	| input regex matches results |
@@ -387,6 +402,8 @@ smalltalkNormalizeParams: params key: key value: value
 !HttpServerRequest class categoriesFor: #decodeMultipart:boundary:do:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:do:!public! !
+!HttpServerRequest class categoriesFor: #decodeUrlEncoded:fieldSeparators:!public! !
+!HttpServerRequest class categoriesFor: #decodeUrlEncoded:fieldSeparators:do:!public! !
 !HttpServerRequest class categoriesFor: #match:with:!private! !
 !HttpServerRequest class categoriesFor: #maxPayload!public! !
 !HttpServerRequest class categoriesFor: #maxPayload:!public! !

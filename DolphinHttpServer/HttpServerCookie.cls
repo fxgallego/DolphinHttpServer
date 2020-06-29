@@ -58,9 +58,9 @@ path: anObject
 
 printOn: target
 	target
-		nextPutAll: self name;
+		nextPutAll: self name urlEncoded;
 		nextPut: $=;
-		nextPutAll: self value.
+		nextPutAll: self value urlEncoded.
 	self expires
 		ifNotNil: 
 			[target nextPutAll: '; Expires='.

@@ -261,14 +261,6 @@ decodeMultipart: aStream boundary: boundary do: aBlock
 decodeUrlEncoded: aString
 	^self decodeUrlEncoded: aString fieldSeparators: {$&}!
 
-decodeUrlEncoded: aString do: aBlock
-	(aString subStrings: $&) do: 
-			[:eachParam |
-			| keyValue |
-			keyValue := eachParam subStrings: $=.
-			aBlock value: (keyValue at: 1) unescapePercents
-				value: ((keyValue at: 2 ifAbsent: []) ifNotNil: [:v | v unescapePercents])]!
-
 decodeUrlEncoded: aString fieldSeparators: aCharacterArray
 	| fields |
 	fields := MultiValueDictionary new.
@@ -286,12 +278,12 @@ decodeUrlEncoded: aString fieldSeparators: aCharacterArray
 decodeUrlEncoded: aString fieldSeparators: aCharacterArray do: aBlock
 	(aCharacterArray split: aString) do: 
 			[:eachParam |
-			| readStream key value |
+			| readStream key value hasValue |
+			hasValue := eachParam includes: $=.
 			readStream := eachParam readStream.
 			key := readStream upTo: $=.
 			value := readStream upToEnd.
-			aBlock value: key trimBlanks unescapePercents
-				value: (value notEmpty ifTrue: [value unescapePercents])]!
+			aBlock value: key trimBlanks urlDecoded value: (hasValue ifTrue: [value urlDecoded])]!
 
 match: string with: pattern
 	| input regex matches results |
@@ -401,7 +393,6 @@ smalltalkNormalizeParams: params key: key value: value
 !HttpServerRequest class categoriesFor: #decodeMultipart:boundary:!public! !
 !HttpServerRequest class categoriesFor: #decodeMultipart:boundary:do:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:!public! !
-!HttpServerRequest class categoriesFor: #decodeUrlEncoded:do:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:fieldSeparators:!public! !
 !HttpServerRequest class categoriesFor: #decodeUrlEncoded:fieldSeparators:do:!public! !
 !HttpServerRequest class categoriesFor: #match:with:!private! !

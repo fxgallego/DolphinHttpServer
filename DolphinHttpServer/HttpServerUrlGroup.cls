@@ -16,6 +16,10 @@ addUrl: aString
 bindQueue: httpApiQueue
 	self lib bindQueue: httpApiQueue handle toUrlGroup: self id!
 
+close
+	self lib httpCloseUrlGroup: id.
+	id := nil!
+
 id
 	^id!
 
@@ -23,6 +27,7 @@ initializeOn: httpApiSession
 	id := self lib createUrlGroup: httpApiSession id! !
 !HttpServerUrlGroup categoriesFor: #addUrl:!public! !
 !HttpServerUrlGroup categoriesFor: #bindQueue:!public! !
+!HttpServerUrlGroup categoriesFor: #close!public! !
 !HttpServerUrlGroup categoriesFor: #id!public! !
 !HttpServerUrlGroup categoriesFor: #initializeOn:!private! !
 

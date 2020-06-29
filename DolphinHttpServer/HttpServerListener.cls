@@ -69,6 +69,7 @@ stop
 	state := #stopping.
 	loop ifNotNil: [loop terminate].
 	queue ifNotNil: [queue close].
+	urlGroup ifNotNil: [urlGroup close].
 	threadPool ifNotNil: [threadPool stop].
 	queue := urlGroup := loop := threadPool := nil.
 	state := #stopped

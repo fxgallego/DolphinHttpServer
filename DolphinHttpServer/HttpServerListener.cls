@@ -43,7 +43,7 @@ loop
 	request := self receiveRequest.
 	self handleRequest: request] repeat]
 		ifCurtailed: [self isRunning ifTrue: [self restartServerLoop]]]
-			fork!
+			forkAt: Processor userBackgroundPriority!
 
 name
 	^name!

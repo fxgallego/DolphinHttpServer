@@ -23,13 +23,11 @@ createServerSession
 	session := HttpServerSession new!
 
 free
-	self stop.
-	SessionManager current removeEventsTriggeredFor: self!
+	self stop!
 
 initialize
 	state := #stopped.
 	listeners := OrderedCollection new.
-	self registerSessionManagerEvents.
 	self beFinalizable!
 
 isRunning
@@ -82,21 +80,28 @@ session
 	^session!
 
 start
-	self isRunning ifTrue: [self stop; start].
+	self isRunning ifTrue: [self stop].
 	state := #running.
-	self listeners do: [:each | each startInSession: self session]!
+	self listeners do: [:each | each startInSession: self session].
+	self registerSessionManagerEvents!
 
 startIfPaused
 	state == #paused ifTrue: [self start]!
 
 stop
+	self beUnfinalizable.
 	state := #stopped.
-	self stopListenersAndCloseSession!
+	self
+		stopListenersAndCloseSession;
+		unregisterSessionManagerEvents!
 
 stopListenersAndCloseSession
 	self listeners do: [:each | each stop].
 	session ifNotNil: [session close].
-	session := nil! !
+	session := nil!
+
+unregisterSessionManagerEvents
+	SessionManager current removeEventsTriggeredFor: self! !
 !HttpServer categoriesFor: #addListener:at:handler:!public! !
 !HttpServer categoriesFor: #createServerSession!private! !
 !HttpServer categoriesFor: #free!public! !
@@ -114,6 +119,7 @@ stopListenersAndCloseSession
 !HttpServer categoriesFor: #startIfPaused!private! !
 !HttpServer categoriesFor: #stop!public! !
 !HttpServer categoriesFor: #stopListenersAndCloseSession!private! !
+!HttpServer categoriesFor: #unregisterSessionManagerEvents!private! !
 
 !HttpServer class methodsFor!
 

@@ -11,14 +11,20 @@ HttpServerSession comment: ''!
 !HttpServerSession methodsFor!
 
 close
+	self beUnfinalizable.
 	self lib httpCloseServerSession: self id!
+
+free
+	self close!
 
 id
 	^id!
 
 initialize
-	id := self lib createServerSession! !
+	id := self lib createServerSession.
+	self beFinalizable! !
 !HttpServerSession categoriesFor: #close!public! !
+!HttpServerSession categoriesFor: #free!private! !
 !HttpServerSession categoriesFor: #id!public! !
 !HttpServerSession categoriesFor: #initialize!private! !
 

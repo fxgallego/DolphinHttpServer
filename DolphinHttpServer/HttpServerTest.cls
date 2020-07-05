@@ -76,6 +76,7 @@ testNewServerIsNotRunning
 testSessionManagerEventsRegistration
 	| events |
 	events := SessionManager current getEvents.
+	server start.
 	self assert: ((events at: #imageSaveStarting ifAbsent: [#()]) includes: (EventMessageSend receiver: server selector: #onImageSaveStarting)).
 	self assert: ((events at: #imageSaveCompleted ifAbsent: [#()]) includes: (EventMessageSend receiver: server selector: #onImageSaveCompleted)).
 	self assert: ((events at: #sessionStopped ifAbsent: [#()]) includes: (EventMessageSend receiver: server selector: #onSessionStopped)).

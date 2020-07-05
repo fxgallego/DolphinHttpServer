@@ -11,16 +11,22 @@ HttpServerQueue comment: ''!
 !HttpServerQueue methodsFor!
 
 close
+	self beUnfinalizable.
 	self lib httpCloseRequestQueue: handle.
 	handle := nil!
+
+free
+	self close!
 
 handle
 	^handle!
 
 initializeName: aString
 	name := aString.
-	handle := self lib createRequestQueue: name! !
+	handle := self lib createRequestQueue: name.
+	self beFinalizable! !
 !HttpServerQueue categoriesFor: #close!public! !
+!HttpServerQueue categoriesFor: #free!private! !
 !HttpServerQueue categoriesFor: #handle!public! !
 !HttpServerQueue categoriesFor: #initializeName:!private! !
 

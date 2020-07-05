@@ -1,4 +1,4 @@
-"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smalltalk 7"!
 
 Object subclass: #ThreadPool
 	instanceVariableNames: 'maxPoolSize minPoolSize poolManager queueWorkers workQueue'
@@ -25,18 +25,12 @@ cleanDead
 		queueWorkItem: [queueWorkers removeAll: (queueWorkers select: [:each | each isDead])]
 		expiresAt: (TimeStamp current addSeconds: 600)!
 
-free
-	self
-		stop;
-		beUnfinalizable!
-
 initialize
 	super initialize.
 	minPoolSize := 5.
 	maxPoolSize := 15.
 	workQueue := SharedQueue new.
-	queueWorkers := SharedIdentitySet new.
-	self beFinalizable
+	queueWorkers := SharedIdentitySet new
 !
 
 isPoolTooBig
@@ -91,7 +85,6 @@ stop
 			poolManager := nil]! !
 !ThreadPool categoriesFor: #adjustThreadPoolSize!private! !
 !ThreadPool categoriesFor: #cleanDead!private! !
-!ThreadPool categoriesFor: #free!private! !
 !ThreadPool categoriesFor: #initialize!private! !
 !ThreadPool categoriesFor: #isPoolTooBig!private! !
 !ThreadPool categoriesFor: #isPoolTooSmall!private! !

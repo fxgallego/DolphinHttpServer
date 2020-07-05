@@ -1,4 +1,4 @@
-| package |
+﻿| package |
 package := Package name: 'Thread Pool'.
 package paxVersion: 1;
 	basicComment: 'Based on Ramon Leon implementation.
@@ -23,9 +23,9 @@ package binaryGlobalNames: (Set new
 package globalAliases: (Set new
 	yourself).
 
-package setPrerequisites: (IdentitySet new
-	add: '..\..\Object Arts\Dolphin\Base\Dolphin';
-	yourself).
+package setPrerequisites: #(
+	'..\..\Dolphin\Core\Object Arts\Dolphin\Base\Dolphin'
+	'..\..\Dolphin\Core\Object Arts\Dolphin\Base\Dolphin Legacy Date & Time').
 
 package!
 

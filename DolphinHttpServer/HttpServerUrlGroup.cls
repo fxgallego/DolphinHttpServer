@@ -17,17 +17,23 @@ bindQueue: httpApiQueue
 	self lib bindQueue: httpApiQueue handle toUrlGroup: self id!
 
 close
+	self beUnfinalizable.
 	self lib httpCloseUrlGroup: id.
 	id := nil!
+
+free
+	self close!
 
 id
 	^id!
 
 initializeOn: httpApiSession
-	id := self lib createUrlGroup: httpApiSession id! !
+	id := self lib createUrlGroup: httpApiSession id.
+	self beFinalizable! !
 !HttpServerUrlGroup categoriesFor: #addUrl:!public! !
 !HttpServerUrlGroup categoriesFor: #bindQueue:!public! !
 !HttpServerUrlGroup categoriesFor: #close!public! !
+!HttpServerUrlGroup categoriesFor: #free!private! !
 !HttpServerUrlGroup categoriesFor: #id!public! !
 !HttpServerUrlGroup categoriesFor: #initializeOn:!private! !
 

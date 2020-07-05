@@ -113,9 +113,9 @@ cookieTestView
 		  match = document.cookie.match(new RegExp(name + "=([^;]+)"));
 		  if (match) return match[1];
 		}
-		document.getElementById("cookie-1").innerHTML = "<b>" + getCookie("cookie-test-name") + "</b>";
-		document.getElementById("cookie-2").innerHTML = "<b>" + getCookie("cookie-test-reverse") + "</b>";
-		document.getElementById("cookie-3").innerHTML = "<b>" + getCookie("cookie-test-uppercase") + "</b>";		
+		document.getElementById("cookie-1").innerHTML = "<b>" + decodeURI(getCookie("cookie-test-name")) + "</b>";
+		document.getElementById("cookie-2").innerHTML = "<b>" + decodeURI(getCookie("cookie-test-reverse")) + "</b>";
+		document.getElementById("cookie-3").innerHTML = "<b>" + decodeURI(getCookie("cookie-test-uppercase")) + "</b>";		
 	</script>
 	'!
 

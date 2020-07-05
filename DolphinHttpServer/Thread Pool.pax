@@ -35,7 +35,7 @@ Object subclass: #ThreadPool
 	instanceVariableNames: 'maxPoolSize minPoolSize poolManager queueWorkers workQueue'
 	classVariableNames: ''
 	poolDictionaries: ''
-	classInstanceVariableNames: ''!
+	classInstanceVariableNames: 'minWorkers maxWorkers workerTimeout'!
 Object subclass: #ThreadWorker
 	instanceVariableNames: 'block expires value lock error'
 	classVariableNames: ''

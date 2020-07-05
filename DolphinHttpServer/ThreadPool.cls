@@ -4,7 +4,7 @@ Object subclass: #ThreadPool
 	instanceVariableNames: 'maxPoolSize minPoolSize poolManager queueWorkers workQueue'
 	classVariableNames: ''
 	poolDictionaries: ''
-	classInstanceVariableNames: ''!
+	classInstanceVariableNames: 'minWorkers maxWorkers workerTimeout'!
 ThreadPool guid: (GUID fromString: '{219a54bd-a9ad-4ffd-9710-87ef11f841fa}')!
 ThreadPool comment: ''!
 !ThreadPool categoriesForClass!Kernel-Objects! !
@@ -27,8 +27,8 @@ cleanDead
 
 initialize
 	super initialize.
-	minPoolSize := 5.
-	maxPoolSize := 15.
+	minPoolSize := self class minWorkers.
+	maxPoolSize := self class maxWorkers.
 	workQueue := SharedQueue new.
 	queueWorkers := SharedIdentitySet new
 !
@@ -55,7 +55,7 @@ processQueueElement
 	workQueue next evaluate!
 
 queueWorkItem: aBlock
-	self queueWorkItem: aBlock expiresAt: (TimeStamp current addSeconds: 60)!
+	self queueWorkItem: aBlock expiresAt: (TimeStamp current addSeconds: self class workerTimeout)!
 
 queueWorkItem: aBlock expiresAt: aTimestamp
 	| worker |
@@ -99,6 +99,20 @@ stop
 
 !ThreadPool class methodsFor!
 
+maxWorkers
+	maxWorkers ifNil: [maxWorkers := 15].
+	^maxWorkers!
+
+maxWorkers: anInteger
+	maxWorkers := anInteger!
+
+minWorkers
+	minWorkers ifNil: [minWorkers := 5].
+	^minWorkers!
+
+minWorkers: anInteger
+	minWorkers := anInteger!
+
 new
 	^super new initialize!
 
@@ -111,7 +125,22 @@ stopAll
 	
 	"
 
-	self allInstances do: [:each | each stop]! !
+	self allInstances do: [:each | each stop]!
+
+workerTimeout
+	"Timeout in seconds"
+
+	workerTimeout ifNil: [workerTimeout := 60].
+	^workerTimeout!
+
+workerTimeout: seconds
+	workerTimeout := seconds! !
+!ThreadPool class categoriesFor: #maxWorkers!public! !
+!ThreadPool class categoriesFor: #maxWorkers:!public! !
+!ThreadPool class categoriesFor: #minWorkers!public! !
+!ThreadPool class categoriesFor: #minWorkers:!public! !
 !ThreadPool class categoriesFor: #new!public! !
 !ThreadPool class categoriesFor: #stopAll!public! !
+!ThreadPool class categoriesFor: #workerTimeout!public! !
+!ThreadPool class categoriesFor: #workerTimeout:!public! !
 

@@ -11,12 +11,19 @@ environment:
 install:
 - ps: >-
     Remove-Item "C:\projects\Dolphin" -Force -Recurse
+    
     $r = Invoke-RestMethod "https://api.github.com/repos/dolphinsmalltalk/Dolphin/releases/latest"
+    
     git clone --single-branch --branch $r.tag_name https://github.com/dolphinsmalltalk/Dolphin.git C:\projects\Dolphin
+    
     cd "C:\projects\Dolphin"
+    
     git submodule update --init --recursive
+    
     git lfs pull
+    
     .\FetchVM.cmd
+    
     .\BootDPRO.cmd
 build_script:
 - cmd: echo Only Test

@@ -41,9 +41,16 @@ testDecodeUrlEncodedWithUnicodeKeysAndValues
 	self assert: (params at: '🐬') = 'bar🐬'.
 	self assert: ((params at: '🐬🐬') isKindOf: Array).
 	self assert: ((params at: '🐬🐬') includes: 'bar').
-	self assert: ((params at: '🐬🐬') includes: 'barz').! !
+	self assert: ((params at: '🐬🐬') includes: 'barz').!
+
+testHttpServerCredentials
+	| credentials |
+	credentials := HttpServerCredentials fromFieldValue: 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='.
+	self assert: credentials userid equals: 'Aladdin'.
+	self assert: credentials password equals: 'open sesame'! !
 !HttpServerRequestTest categoriesFor: #testDecodeUrlEncodedArrayParams!public! !
 !HttpServerRequestTest categoriesFor: #testDecodeUrlEncodedSingleAndRepeatedParams!public! !
 !HttpServerRequestTest categoriesFor: #testDecodeUrlEncodedSingleParams!public! !
 !HttpServerRequestTest categoriesFor: #testDecodeUrlEncodedWithUnicodeKeysAndValues!public! !
+!HttpServerRequestTest categoriesFor: #testHttpServerCredentials!public! !
 

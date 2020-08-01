@@ -17,6 +17,7 @@ server start.
 package classNames
 	add: #HttpServer;
 	add: #HttpServerCookie;
+	add: #HttpServerCredentials;
 	add: #HttpServerError;
 	add: #HttpServerFile;
 	add: #HttpServerHeaders;
@@ -68,6 +69,11 @@ HttpServerObject subclass: #HttpServer
 	classInstanceVariableNames: ''!
 HttpServerObject subclass: #HttpServerCookie
 	instanceVariableNames: 'name value domain path expires maxAge secure httpOnly'
+	classVariableNames: ''
+	poolDictionaries: ''
+	classInstanceVariableNames: ''!
+HttpServerObject subclass: #HttpServerCredentials
+	instanceVariableNames: 'fieldValue userid password'
 	classVariableNames: ''
 	poolDictionaries: ''
 	classInstanceVariableNames: ''!

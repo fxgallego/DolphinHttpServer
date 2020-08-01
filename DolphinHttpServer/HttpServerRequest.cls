@@ -34,6 +34,11 @@ contentType
 cookie
 	^self headerAt: 'Cookie' ifAbsent: []!
 
+credentials
+	"Returns a HttpServerCredentials object if the Authorization header is present or nil if none."
+
+	^(self headerAt: 'Authorization') ifNotNil: [:value | HttpServerCredentials fromFieldValue: value]!
+
 dateAndTime
 	^dateAndTime!
 
@@ -169,6 +174,7 @@ xRequestedWith
 !HttpServerRequest categoriesFor: #contentLength!public! !
 !HttpServerRequest categoriesFor: #contentType!public! !
 !HttpServerRequest categoriesFor: #cookie!public! !
+!HttpServerRequest categoriesFor: #credentials!public! !
 !HttpServerRequest categoriesFor: #dateAndTime!public! !
 !HttpServerRequest categoriesFor: #fullUrl!public! !
 !HttpServerRequest categoriesFor: #headerAt:!public! !

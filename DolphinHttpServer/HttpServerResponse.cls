@@ -65,6 +65,9 @@ request
 	^request!
 
 send
+	"Handle 16r40 error when the user closes,  or stops the download before the server ends sending.
+	This should not be considered an error."
+
 	| response |
 	response := HTTP_RESPONSE new.
 	response
@@ -72,10 +75,12 @@ send
 		pReason: self reason.
 	self content notEmpty ifTrue: [response content: self content].
 	headers write: response.
-	self lib
+	
+	[self lib
 		sendResponse: response
 		queue: request queueHandle
-		id: request id!
+		id: request id] on: Win32Error
+			do: [:ex | ex statusCode = 16r40 ifFalse: [ex pass]]!
 
 statusCode
 	^statusCode!

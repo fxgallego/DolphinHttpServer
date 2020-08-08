@@ -46,10 +46,13 @@ fullUrl
 	^httpRequest CookedUrl pFullUrl asString!
 
 headerAt: name
-	^self headers headerAt: name ifAbsent: []!
+	^self headerAt: name ifAbsent: []!
 
 headerAt: name ifAbsent: aBlock
 	^self headers headerAt: name ifAbsent: aBlock!
+
+headerAt: name ifPresent: operation
+	^self headers headerAt: name ifPresent: operation!
 
 headerAt: name put: stringValue
 	^self headers headerAt: name put: stringValue!
@@ -88,8 +91,17 @@ isFormUrlEncoded
 isGet
 	^self verb = 'GET'!
 
+isHead
+	^self verb = 'HEAD'!
+
 isMultipart
 	^self contentType beginsWith: 'multipart/form-data'!
+
+isOptions
+	^self verb = 'OPTIONS'!
+
+isPatch
+	^self verb = 'PATCH'!
 
 isPost
 	^self verb = 'POST'!
@@ -107,7 +119,13 @@ origin
 	^self headerAt: 'Origin' ifAbsent: ['']!
 
 paramAt: name
-	^self params at: name ifAbsent: []!
+	^self paramAt: name ifAbsent: []!
+
+paramAt: name ifAbsent: operation
+	^self params at: name ifAbsent: operation!
+
+paramAt: name ifPresent: operation
+	^self params at: name ifPresent: operation!
 
 params
 	"Answer all params: postFields + queryFields.
@@ -179,6 +197,7 @@ xRequestedWith
 !HttpServerRequest categoriesFor: #fullUrl!public! !
 !HttpServerRequest categoriesFor: #headerAt:!public! !
 !HttpServerRequest categoriesFor: #headerAt:ifAbsent:!public! !
+!HttpServerRequest categoriesFor: #headerAt:ifPresent:!public! !
 !HttpServerRequest categoriesFor: #headerAt:put:!public! !
 !HttpServerRequest categoriesFor: #headers!public! !
 !HttpServerRequest categoriesFor: #host!public! !
@@ -190,12 +209,17 @@ xRequestedWith
 !HttpServerRequest categoriesFor: #isEncrypted!public! !
 !HttpServerRequest categoriesFor: #isFormUrlEncoded!public! !
 !HttpServerRequest categoriesFor: #isGet!public! !
+!HttpServerRequest categoriesFor: #isHead!public! !
 !HttpServerRequest categoriesFor: #isMultipart!public! !
+!HttpServerRequest categoriesFor: #isOptions!public! !
+!HttpServerRequest categoriesFor: #isPatch!public! !
 !HttpServerRequest categoriesFor: #isPost!public! !
 !HttpServerRequest categoriesFor: #isPut!public! !
 !HttpServerRequest categoriesFor: #multipartBoundary!private! !
 !HttpServerRequest categoriesFor: #origin!public! !
 !HttpServerRequest categoriesFor: #paramAt:!public! !
+!HttpServerRequest categoriesFor: #paramAt:ifAbsent:!public! !
+!HttpServerRequest categoriesFor: #paramAt:ifPresent:!public! !
 !HttpServerRequest categoriesFor: #params!public! !
 !HttpServerRequest categoriesFor: #parsePostFields!private! !
 !HttpServerRequest categoriesFor: #parseQueryFields!private! !

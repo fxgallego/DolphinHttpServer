@@ -43,10 +43,11 @@ onImageSaveStarting
 	self isRunning
 		ifTrue: 
 			[state := #paused.
-			self stopListenersAndCloseSession]!
+			self stopListenersAndCloseSession.
+			(Delay forSeconds: 1) wait	"Wait for other processes to be cleaned before image save."]!
 
 onSessionStarted
-	self startIfPaused!
+	[self startIfPaused] postToInputQueue!
 
 onSessionStopped
 	self stop!

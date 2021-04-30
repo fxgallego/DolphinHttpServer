@@ -67,7 +67,7 @@ startInSession: httpApiSession
 
 stop
 	state := #stopping.
-	loop ifNotNil: [loop terminate].
+	loop ifNotNil: [loop priority: Processor activeProcess priority; terminate. Processor yield].
 	queue ifNotNil: [queue close].
 	urlGroup ifNotNil: [urlGroup close].
 	threadPool ifNotNil: [threadPool stop].

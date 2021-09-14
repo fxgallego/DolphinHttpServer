@@ -1,4 +1,4 @@
-﻿"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smallalk"!
 
 HttpServerObject subclass: #HttpServerResponse
 	instanceVariableNames: 'request statusCode reason contentType content headers'
@@ -65,8 +65,11 @@ request
 	^request!
 
 send
-	"Handle 16r40 error when the user closes,  or stops the download before the server ends sending.
-	This should not be considered an error."
+	"This should not be considered an error because are received when there is a problem in client side.
+	16r40 error when the user closes,  or stops the download before the server ends sending.
+	16r4CD: An operation was attempted on a nonexistent network connection.
+	16r3E3: The I/O operation has been aborted because of either a thread exit or an application request.
+	16r79: The semaphore timeout period has expired."
 
 	| response |
 	response := HTTP_RESPONSE new.
@@ -80,7 +83,7 @@ send
 		sendResponse: response
 		queue: request queueHandle
 		id: request id] on: Win32Error
-			do: [:ex | ex statusCode = 16r40 ifFalse: [ex pass]]!
+			do: [:ex | (#(16r40 16r4CD 16r3E3 16r79) includes: ex statusCode) ifFalse: [ex pass]]!
 
 statusCode
 	^statusCode!

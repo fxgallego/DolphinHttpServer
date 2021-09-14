@@ -1,4 +1,4 @@
-﻿"Filed out from Dolphin Smalltalk 7"!
+﻿"Filed out from Dolphin Smallalk"!
 
 Object subclass: #ThreadPool
 	instanceVariableNames: 'maxPoolSize minPoolSize poolManager queueWorkers workQueue'
@@ -21,9 +21,7 @@ cleanDead
 	"Private - Clean dead processes, for example those kill when a debugger session ends
 	on terminated by exception handling."
 
-	self
-		queueWorkItem: [queueWorkers removeAll: (queueWorkers select: [:each | each isDead])]
-		expiresAt: (TimeStamp current addSeconds: 600)!
+	[queueWorkers removeAll: (queueWorkers select: [:each | each isDead])] forkAt: Processor userSchedulingPriority!
 
 initialize
 	super initialize.

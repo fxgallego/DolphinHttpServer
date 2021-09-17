@@ -58,7 +58,7 @@ restartServerLoop
 	state := #running!
 
 startInSession: httpApiSession
-	queue := HttpServerQueue named: self name.
+	queue := HttpServerQueue named: self name , GUID newUnique displayString.
 	urlGroup := HttpServerUrlGroup on: httpApiSession.
 	threadPool := ThreadPool new.
 	urlGroup addUrl: urlPrefix.
